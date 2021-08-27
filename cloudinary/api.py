@@ -59,7 +59,7 @@ def resource_types(**options):
 
 
 def resources(**options):
-    resource_type = options.pop("resource_type", "image")
+    resource_type = options.pop("resource_type", "auto")
     upload_type = options.pop("type", None)
     uri = ["resources", resource_type]
     if upload_type:
@@ -70,7 +70,7 @@ def resources(**options):
 
 
 def resources_by_tag(tag, **options):
-    resource_type = options.pop("resource_type", "image")
+    resource_type = options.pop("resource_type", "auto")
     uri = ["resources", resource_type, "tags", tag]
     params = only(options, "next_cursor", "max_results", "tags",
                   "context", "moderations", "direction", "metadata")
@@ -78,7 +78,7 @@ def resources_by_tag(tag, **options):
 
 
 def resources_by_moderation(kind, status, **options):
-    resource_type = options.pop("resource_type", "image")
+    resource_type = options.pop("resource_type", "auto")
     uri = ["resources", resource_type, "moderations", kind, status]
     params = only(options, "next_cursor", "max_results", "tags",
                   "context", "moderations", "direction", "metadata")
@@ -86,7 +86,7 @@ def resources_by_moderation(kind, status, **options):
 
 
 def resources_by_ids(public_ids, **options):
-    resource_type = options.pop("resource_type", "image")
+    resource_type = options.pop("resource_type", "auto")
     upload_type = options.pop("type", "upload")
     uri = ["resources", resource_type, upload_type]
     params = dict(only(options, "tags", "moderations", "context"), public_ids=public_ids)
@@ -109,7 +109,7 @@ def resources_by_context(key, value=None, **options):
     :return:            Resources (assets) with a specified context key
     :rtype:             Response
     """
-    resource_type = options.pop("resource_type", "image")
+    resource_type = options.pop("resource_type", "auto")
     uri = ["resources", resource_type, "context"]
     params = only(options, "next_cursor", "max_results", "tags",
                 "context", "moderations", "direction", "metadata")
@@ -120,7 +120,7 @@ def resources_by_context(key, value=None, **options):
 
 
 def resource(public_id, **options):
-    resource_type = options.pop("resource_type", "image")
+    resource_type = options.pop("resource_type", "auto")
     upload_type = options.pop("type", "upload")
     uri = ["resources", resource_type, upload_type, public_id]
     params = only(options, "exif", "faces", "colors", "image_metadata", "cinemagraph_analysis",
@@ -130,7 +130,7 @@ def resource(public_id, **options):
 
 
 def update(public_id, **options):
-    resource_type = options.pop("resource_type", "image")
+    resource_type = options.pop("resource_type", "auto")
     upload_type = options.pop("type", "upload")
     uri = ["resources", resource_type, upload_type, public_id]
     params = only(options, "moderation_status", "raw_convert",
@@ -156,7 +156,7 @@ def update(public_id, **options):
 
 
 def delete_resources(public_ids, **options):
-    resource_type = options.pop("resource_type", "image")
+    resource_type = options.pop("resource_type", "auto")
     upload_type = options.pop("type", "upload")
     uri = ["resources", resource_type, upload_type]
     params = __delete_resource_params(options, public_ids=public_ids)
@@ -164,7 +164,7 @@ def delete_resources(public_ids, **options):
 
 
 def delete_resources_by_prefix(prefix, **options):
-    resource_type = options.pop("resource_type", "image")
+    resource_type = options.pop("resource_type", "auto")
     upload_type = options.pop("type", "upload")
     uri = ["resources", resource_type, upload_type]
     params = __delete_resource_params(options, prefix=prefix)
@@ -172,7 +172,7 @@ def delete_resources_by_prefix(prefix, **options):
 
 
 def delete_all_resources(**options):
-    resource_type = options.pop("resource_type", "image")
+    resource_type = options.pop("resource_type", "auto")
     upload_type = options.pop("type", "upload")
     uri = ["resources", resource_type, upload_type]
     params = __delete_resource_params(options, all=True)
@@ -180,7 +180,7 @@ def delete_all_resources(**options):
 
 
 def delete_resources_by_tag(tag, **options):
-    resource_type = options.pop("resource_type", "image")
+    resource_type = options.pop("resource_type", "auto")
     uri = ["resources", resource_type, "tags", tag]
     params = __delete_resource_params(options)
     return call_api("delete", uri, params, **options)
@@ -193,7 +193,7 @@ def delete_derived_resources(derived_resource_ids, **options):
 
 
 def delete_derived_by_transformation(public_ids, transformations,
-                                     resource_type='image', type='upload', invalidate=None,
+                                     resource_type='auto', type='upload', invalidate=None,
                                      **options):
     """Delete derived resources of public ids, identified by transformations
 
@@ -203,7 +203,7 @@ def delete_derived_by_transformation(public_ids, transformations,
     :type transformations: list of (dict or str)
     :param type: The upload type
     :type type: str
-    :param resource_type: The type of the resource: defaults to "image"
+    :param resource_type: The type of the resource: defaults to "auto"
     :type resource_type: str
     :param invalidate: (optional) True to invalidate the resources after deletion
     :type invalidate: bool
@@ -222,7 +222,7 @@ def delete_derived_by_transformation(public_ids, transformations,
 
 
 def tags(**options):
-    resource_type = options.pop("resource_type", "image")
+    resource_type = options.pop("resource_type", "auto")
     uri = ["tags", resource_type]
     return call_api("get", uri, only(options, "next_cursor", "max_results", "prefix"), **options)
 
@@ -275,21 +275,21 @@ def create_transformation(name, definition, **options):
 
 
 def publish_by_ids(public_ids, **options):
-    resource_type = options.pop("resource_type", "image")
+    resource_type = options.pop("resource_type", "auto")
     uri = ["resources", resource_type, "publish_resources"]
     params = dict(only(options, "type", "overwrite", "invalidate"), public_ids=public_ids)
     return call_api("post", uri, params, **options)
 
 
 def publish_by_prefix(prefix, **options):
-    resource_type = options.pop("resource_type", "image")
+    resource_type = options.pop("resource_type", "auto")
     uri = ["resources", resource_type, "publish_resources"]
     params = dict(only(options, "type", "overwrite", "invalidate"), prefix=prefix)
     return call_api("post", uri, params, **options)
 
 
 def publish_by_tag(tag, **options):
-    resource_type = options.pop("resource_type", "image")
+    resource_type = options.pop("resource_type", "auto")
     uri = ["resources", resource_type, "publish_resources"]
     params = dict(only(options, "type", "overwrite", "invalidate"), tag=tag)
     return call_api("post", uri, params, **options)
@@ -352,7 +352,7 @@ def delete_folder(path, **options):
 
 
 def restore(public_ids, **options):
-    resource_type = options.pop("resource_type", "image")
+    resource_type = options.pop("resource_type", "auto")
     upload_type = options.pop("type", "upload")
     uri = ["resources", resource_type, upload_type, "restore"]
     params = dict(public_ids=public_ids, **only(options, "versions"))
