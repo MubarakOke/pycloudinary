@@ -42,7 +42,7 @@ class CloudinaryField(models.Field):
     def __init__(self, *args, **kwargs):
         self.default_form_class = kwargs.pop("default_form_class", forms.CloudinaryFileField)
         self.type = kwargs.pop("type", "upload")
-        self.resource_type = kwargs.pop("resource_type", "image")
+        self.resource_type = kwargs.pop("resource_type", "auto")
         self.width_field = kwargs.pop("width_field", None)
         self.height_field = kwargs.pop("height_field", None)
         # Collect all options related to Cloudinary upload
