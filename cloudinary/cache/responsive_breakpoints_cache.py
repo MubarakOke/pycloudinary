@@ -61,7 +61,7 @@ class ResponsiveBreakpointsCache:
         transformation, _ = cloudinary.utils.generate_transformation_string(**options_copy)
         file_format = options.get("format", "")
         storage_type = options.get("type", "upload")
-        resource_type = options.get("resource_type", "image")
+        resource_type = options.get("resource_type", "auto")
 
         return storage_type, resource_type, transformation, file_format
 

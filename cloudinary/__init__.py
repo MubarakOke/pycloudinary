@@ -306,7 +306,7 @@ class CloudinaryResource(object):
 
     def __build_url(self, **options):
         combined_options = dict(format=self.format, version=self.version, type=self.type,
-                                resource_type=self.resource_type or "image")
+                                resource_type=self.resource_type or "auto")
         combined_options.update(options)
         public_id = combined_options.get('public_id') or self.public_id
         return utils.cloudinary_url(public_id, **combined_options)

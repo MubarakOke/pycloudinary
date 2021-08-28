@@ -62,7 +62,7 @@ def cloudinary_direct_upload(callback_url, **options):
     params = utils.build_upload_params(callback=callback_url, **options)
     params = utils.sign_request(params, options)
 
-    api_url = utils.cloudinary_api_url("upload", resource_type=options.get("resource_type", "image"),
+    api_url = utils.cloudinary_api_url("upload", resource_type=options.get("resource_type", "auto"),
                                        upload_prefix=options.get("upload_prefix"))
 
     return {"params": params, "url": api_url}
